@@ -1,0 +1,36 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1alpha1
+kind: SecretProviderClass
+metadata:
+  name: app-secrets
+  namespace: default
+spec:
+  provider: gcp
+  parameters:
+    secrets: |
+      - resourceName: "projects/${PROJECT_ID}/secrets/my-db-password/versions/latest"
+        fileName: "good1.txt"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+  namespace: default
+spec:
+  serviceAccountName: secret-ksa
+  containers:
+  - image: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    name: mypod
+    resources:
+      requests:
+        cpu: 100m
+    tty: true
+    volumeMounts:
+      - mountPath: "/var/secrets"
+        name: mysecret
+  volumes:
+  - name: mysecret
+    csi:
+      driver: secrets-store.csi.k8s.io
+      readOnly: true
+      volumeAttributes:
+        secretProviderClass: "app-secrets"
