@@ -47,7 +47,7 @@ Your secret content should be printed in plaintext
 
 ## (Optional) Check the Data read Logs
 
-If you have enabled the DATA Read logs on the GSM Service in the environment setup [steps](add link). You can check the logs using the logging page from the console. 
+If you have enabled the DATA Read logs on the GSM Service in the environment setup [steps](https://github.com/boredabdel/gke-secret-manager#optional-enable-data-access-logs-on-gsm). You can check the logs using the logging page from the console. 
 
 Use the following filters
 
