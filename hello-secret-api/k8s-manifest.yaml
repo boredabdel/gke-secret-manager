@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-secret-api
+  namespace: default
+spec:
+  serviceAccountName: secret-ksa
+  containers:
+  - name: hello-secret-api
+    image: gcr.io/db-pso-project/hello-secret-api:v0.3
+    ports:
+    - containerPort: 80
+    env:
+    - name: PROJECT_ID
+      value: "db-pso-project"
+    - name: SECRET_NAME
+      value: "my-db-password"
+    - name: SECRET_VERSION
+      value: "latest"
+    - name: VERSION
