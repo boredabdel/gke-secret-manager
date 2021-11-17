@@ -84,3 +84,36 @@ kubectl annotate serviceaccount \
     --namespace default secret-ksa  \
     iam.gke.io/gcp-service-account=secret-gsa@${PROJECT_ID}.iam.gserviceaccount.com
 ```
+
+### (Optional) Enable Data access logs on GSM
+
+In this step you will enable the Data access Logs on the Google Secret Manager service to check who accesses the logs. This will allow you to answer the question: Which identity (Service Account or User) have read my secret.
+
+If you have such security requirements this step can be acheived via the [console](https://cloud.google.com/logging/docs/audit/configure-data-access#config-console) or via the cli following the instructions below
+
+Download the IAM policy of the project to a temp file
+
+```
+gcloud projects get-iam-policy ${PROJECT_ID} > policy.yaml
+```
+
+Edit the ```policy.yaml``` file and add the following section to the same level as ```bindings``` (if you already have an auditConfigs section, append the content below)
+
+```
+auditConfigs:
+- auditLogConfigs:
+  - logType: DATA_READ
+  service: secretmanager.googleapis.com
+```
+
+Apply the new policy
+
+```
+gcloud projects set-iam-policy ${PROJECT_ID} policy.yaml
+```
+
+Check the policy have been applied 
+
+```
+gcloud projects get-iam-policy ${PROJECT_ID}
+```

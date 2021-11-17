@@ -45,6 +45,19 @@ curl localhost:8080
 
 Your secret content should be printed in plaintext
 
+## (Optional) Check the Data read Logs
+
+If you have enabled the DATA Read logs on the GSM Service in the environment setup [steps](add link). You can check the logs using the logging page from the console. 
+
+Use the following filters
+
+```
+logName="projects/db-pso-project/logs/cloudaudit.googleapis.com%2Fdata_access"
+protoPayload.serviceName="secretmanager.googleapis.com"
+```
+
+The logs should have a ```principalEmail``` field. This should be the Google Service Account configured with Workload Identity
+  
 ## Cleanup
 
 ```
