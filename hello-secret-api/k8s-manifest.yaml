@@ -7,14 +7,13 @@ spec:
   serviceAccountName: secret-ksa
   containers:
   - name: hello-secret-api
-    image: gcr.io/db-pso-project/hello-secret-api:v0.3
+    image: gcr.io/${PROJECT_ID}/hello-secret-api
     ports:
-    - containerPort: 80
+    - containerPort: 8080
     env:
     - name: PROJECT_ID
-      value: "db-pso-project"
+      value: "${PROJECT_ID}"
     - name: SECRET_NAME
-      value: "my-db-password"
+      value: "${SECRET_NAME}"
     - name: SECRET_VERSION
-      value: "latest"
-    - name: VERSION
+      value: "${SECRET_VERSION}"
