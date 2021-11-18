@@ -1,4 +1,4 @@
-# GKE Secret Manager. Consuming secrets the CSI driver
+# GKE Secret Manager. Consuming secrets using the CSI driver
 
 NB: This is not an official Google Cloud Product. Use at your own risk
 

@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: entrypoint
+  labels:
+    app: default-init
+data:
+  entrypoint.sh: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo $(gcloud secrets versions access ${SECRET_VERSION} --project=${PROJECT_ID} --secret=${SECRET_NAME}) >> $SECRET_PATH
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+  namespace: default
+spec:
+  serviceAccountName: secret-ksa
+  initContainers:
+  - image: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    name: init
+    command: ["/scripts/entrypoint.sh"]
+    volumeMounts:
+    - mountPath: /scripts
+      name: entrypoint
+    - mountPath: /var/secrets
+      name: secret-volume
+    env:
+    - name: PROJECT_ID
+      value: "${PROJECT_ID}"
+    - name: SECRET_NAME
+      value: "${SECRET_NAME}"
+    - name: SECRET_VERSION
+      value: "${SECRET_VERSION}"
+    - name: SECRET_PATH
+      value: "${SECRET_PATH}"
+  containers:
+  - image: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    name: mypod
+    resources:
+      requests:
+        cpu: 100m
+    tty: true
+    volumeMounts:
+    - mountPath: /var/secrets
+      name: secret-volume
+  volumes:
+  - name: entrypoint
+    configMap:
+      name: entrypoint
+      defaultMode: 0744
+  - name: secret-volume
+    emptyDir: {}
