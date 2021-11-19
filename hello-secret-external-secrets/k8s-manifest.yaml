@@ -1,0 +1,12 @@
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: my-gcp-secret #name of the External Secret and the generate k8s secret
+spec:
+  backendType: gcpSecretsManager
+  projectId: db-pso-project
+  data:
+    - key: my-secret # name of the GCP secret
+      version: latest # version of the GCP secret
+      property: value # name of the field in the GCP secret
+      name: secret-key # key name in the k8s secret
