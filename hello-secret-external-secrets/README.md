@@ -140,7 +140,7 @@ Let's update the Secret in GSM and check that External Secret have synced it.
 echo -n '{"value": "new-secret-value"}' | gcloud secrets versions add  my-secret --data-file=- 
 ```
 
-This should create a new version of the secret in GSM. Because in our ExternalSecrets object with are always syncing the ```latest```. Wait few seconds and repeat the steps in [Check the secret in Kubernetes](). You should see the new value reflected in Kubernetes secrets.
+This should create a new version of the secret in GSM. Because in our ExternalSecrets object with are always syncing the ```latest```. Wait few seconds and repeat the steps in [Check the secret in Kubernetes](https://github.com/boredabdel/gke-secret-manager/tree/main/hello-secret-external-secrets#check-the-secret-in-kubernetes). You should see the new value reflected in Kubernetes secrets.
 
 ## (Optional) Check the Data read Logs
 
