@@ -9,6 +9,7 @@ This main README file contains the steps needed to prepare the environment for t
 ```
 export PROJECT_ID=db-pso-project
 export GKE_ZONE=europe-west6-a
+export GKE_REGION=europe-west6
 ```
 
 ## Create Cluster

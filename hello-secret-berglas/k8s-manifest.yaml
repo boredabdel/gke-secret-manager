@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: envserver
+  template:
+    metadata:
+      labels:
+        app: envserver
+    spec:
+      serviceAccountName: berglas-ksa
+      containers:
+      - name: envserver
+        image: sethvargo/envserver
+        imagePullPolicy: Always
+        command: ["/bin/envserver"]
+        env:
+        - name: BERGLAS_SECRET
+          value: sm://${PROJECT_ID}/berglas-secret
