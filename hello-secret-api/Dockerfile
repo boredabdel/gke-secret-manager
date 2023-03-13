@@ -1,5 +1,5 @@
 ## Build
-FROM golang:1.16-alpine as build
+FROM golang:1.17-alpine as build
 
 RUN apk add --no-cache git
 
@@ -17,7 +17,7 @@ RUN go build -o ./out/hello-secret-api .
 ##
 ## Deploy
 ##
-FROM alpine:3.9 
+FROM alpine:3.9
 RUN apk add ca-certificates
 
 COPY --from=build /tmp/app/out/hello-secret-api /app/hello-secret-api
